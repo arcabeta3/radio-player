@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>錄音機播放器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .radio-container {
+            width: 300px;
+            margin: auto;
+            position: relative;
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .radio-img {
+            width: 100%;
+            display: block;
+        }
+        .progress-bar {
+            width: 100%;
+            margin-top: 10px;
+        }
+        .controls {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        button {
+            font-size: 18px;
+            padding: 10px;
+            cursor: pointer;
+            border: none;
+            background: #ff5722;
+            color: white;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #e64a19;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="radio-container">
+        <img src="assets/your-radio-image.png" class="radio-img" alt="收音機">
+        <div class="controls">
+            <button id="playPauseBtn">▶️</button>
+        </div>
+        <input type="range" id="progressBar" class="progress-bar" min="0" value="0" step="0.01">
+    </div>
+
+    <audio id="audio" src="assets/your-audio-file.mp3"></audio>
+
+    <script>
+        let audio = document.getElementById("audio");
+        let playPauseBtn = document.getElementById("playPauseBtn");
+        let progressBar = document.getElementById("progressBar");
+
+        // 播放 / 暫停功能
+        playPauseBtn.addEventListener("click", function() {
+            if (audio.paused) {
+                audio.play();
+                playPauseBtn.innerText = "⏸";
+            } else {
+                audio.pause();
+                playPauseBtn.innerText = "▶️";
+            }
+        });
+
+        // 監聽播放進度，更新進度條
+        audio.addEventListener("timeupdate", function() {
+            progressBar.value = (audio.currentTime / audio.duration) * 100;
+        });
+
+        // 讓使用者拖曳進度條調整播放時間
+        progressBar.addEventListener("input", function() {
+            audio.currentTime = (progressBar.value / 100) * audio.duration;
+        });
+    </script>
+
+</body>
+</html>
